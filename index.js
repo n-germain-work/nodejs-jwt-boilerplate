@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const connection = require('./database');
 
-const { SERVER_PORT, CLIENT_URL, JWT_SECRET } = process.env;
+const { SERVER_PORT, CLIENT_URL, JWT_AUTH_SECRET } = process.env;
 
 const app = express();
 

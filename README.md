@@ -280,7 +280,7 @@ Ensuite, tu vas utiliser le module [jsonwebtoken](https://www.npmjs.com/package/
 - installe le module
 - utilise la méthode `sign` afin de générer un JWT, en utilisant la clé secrète des variables d'environnement.
 - Le _payload_ de la clé sera le json suivant : `json { id: user.id } `
-- la date d'expiration `expiresIn` sera de une heure.
+- la date d'expiration `expiresIn` sera de 5 minutes.
 
 Génère la clé juste avant de renvoyer utilisateur dans la route `/login` et fait en sorte que la structure du JSON soit la suivante :
 
@@ -337,8 +337,8 @@ app.post('/login', (req, res) => {
             email,
             password: 'hidden',
           };
-          const token = jwt.sign({ id: user.id }, JWT_SECRET, {
-            expiresIn: '1h',
+          const token = jwt.sign({ id: user.id }, JWT_AUTH_SECRET, {
+            expiresIn: 300,
           });
           res.status(200).json({ user, token });
         } else {
@@ -418,7 +418,7 @@ Pour cette partie là, le _middleware_ est fourni et est à ajouter **avant** la
 const authenticateWithJsonWebToken = (req, res, next) => {
   if (req.headers.authorization !== undefined) {
     const token = req.headers.authorization.split(' ')[1];
-    jwt.verify(token, JWT_SECRET, (err) => {
+    jwt.verify(token, JWT_AUTH_SECRET, (err) => {
       if (err) {
         res
           .status(401)
@@ -463,7 +463,7 @@ Bien sûr, il faudra remplacer le _token_ par celui récupéré lors de la conne
 const authenticateWithJsonWebToken = (req, res, next) => {
   if (req.headers.authorization !== undefined) {
     const token = req.headers.authorization.split(' ')[1];
-    jwt.verify(token, JWT_SECRET, (err) => {
+    jwt.verify(token, JWT_AUTH_SECRET, (err) => {
       if (err) {
         res
           .status(401)
