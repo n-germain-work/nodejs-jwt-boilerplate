@@ -18,6 +18,10 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/', (req, res) => {
+  res.send('It works.');
+});
+
 // Your code here!
 app.post('/register', (req, res) => {
   const { email, password } = req.body;
